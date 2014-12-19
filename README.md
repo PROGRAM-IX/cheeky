@@ -57,15 +57,17 @@ awful.key({ modkey }, "/", function()
 end),
 ```
 
-or if you want relative coordinates (per active screen) you can do
+#### Other options
+
+The full table you can pass to the `switcher` function (some are pretty useless but... meh):
 
 ```lua
-awful.key({ modkey }, "/", function()
-  local offset = screen[client.focus.screen].workarea
-
-  cheeky.util.switcher({ coords = { x = offset.x + 200,
-                                    y = offset.y + 200 } })
-end),
+  {
+    coords = { x = 0, y = 0 },   -- default: the mouse's coordinates
+    hide_notification = false,   -- default: true
+    notification_text = "NOPE",  -- default: "No matches. Resetting"
+    notification_timeout = 5     -- default: 1
+  }
 ```
 
 Type away!
@@ -73,10 +75,3 @@ Type away!
 ## TODO
 
 - Reduce the flickering (it's not too bad)
-- Allow the user to
-  * set a static screen and coordinates for the menu
-  * disable the cheeky reset
-  * disable the cheeky notification
-- ~~Fuzzy matching?~~ (won't do. it's impractical, too many results are generated)
-- ~~Select entry by number~~
-- ~~Auto select when single match~~ (won't do. it creates a 'human' bug)
