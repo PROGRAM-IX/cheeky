@@ -33,7 +33,8 @@ function match_clients(s)
     then
       table.insert(cls, { c.name, function()
                             client.focus = c
-                            c:raise() end,
+                            c:raise()
+                            awful.client.jumpto(c) end,
                           c.icon }) end
   end
 
@@ -46,7 +47,13 @@ function cmenureset()
   local clist = match_clients(matcher_str)
 
   if #clist == 0 then
-    naughty.notify({ text = "No matches. Reseting.", timeout = 1 })
+    if not options.hide_notification then
+      local text    = options.notification_text or "No matches. Resetting."
+      local timeout = options.notification_timeout or 1
+
+      naughty.notify({ text = text, timeout = timeout })
+    end
+
     matcher_str = ""
     clist = match_clients(matcher_str)
   end
