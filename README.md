@@ -27,7 +27,7 @@ Clone this repository into your Awesome configuration directory:
 
 ## Usage
 
-Include the module on your `rc.lua` file:
+Include the module in your `rc.lua` file:
 
 ```lua
   require("cheeky")
