@@ -12,7 +12,12 @@ module("cheeky.util")
 local matcher_str = nil
 local cmenu       = nil
 
-local options = nil
+local options = {
+  -- coords are handled by Awesome --
+  hide_notification     = false,
+  notification_text     = "No matches. Resetting.",
+  notification_timeout  = 1
+}
 
 local function nocase(s)
   s = string.gsub(s, "%a", function (c)
@@ -48,10 +53,8 @@ function cmenureset()
 
   if #clist == 0 then
     if not options.hide_notification then
-      local text    = options.notification_text or "No matches. Resetting."
-      local timeout = options.notification_timeout or 1
-
-      naughty.notify({ text = text, timeout = timeout })
+      naughty.notify({ text    = options.notification_text,
+                       timeout = options.notification_timeout })
     end
 
     matcher_str = ""
@@ -122,8 +125,11 @@ function grabber(mod, key, event)
   end
 end
 
-function switcher(opts)
-  options = opts
+function switcher()
+  if opts then
+    for k,v in pairs(opts) do options[k] = v end
+  end
+
   awful.keygrabber.stop(grabber)
   matcher_str = ""
   cmenureset()
