@@ -82,16 +82,7 @@ function grabber(mod, key, event)
     local sel_new = (sel - 1) < 1 and #client_menu.items or (sel - 1)
     client_menu:item_enter(sel_new)
 
-  elseif key == '1' or
-    key == '2' or
-    key == '3' or
-    key == '4' or
-    key == '5' or
-    key == '6' or
-    key == '7' or
-    key == '8' or
-    key == '9'
-  then
+  elseif string.match(key, "[1-9]") then
     client_menu:exec(key + 0, { exec = true })
     awful.keygrabber.stop(grabber)
 
