@@ -10,7 +10,7 @@ local table  = table
 module("cheeky.util")
 
 local matcher_str = nil
-local cmenu       = nil
+local client_menu = nil
 
 local options = {
   -- coords are handled by Awesome --
@@ -19,7 +19,7 @@ local options = {
   notification_timeout  = 1
 }
 
-local function nocase(s)
+local function no_case(s)
   s = string.gsub(s, "%a", function (c)
                     return string.format("[%s%s]",
                                          string.lower(c),
@@ -31,10 +31,11 @@ function match_clients(s)
   local cls = {}
 
   for i, c in pairs(client.get()) do
-    local nocase_s = nocase(s)
+    local nc_s = no_case(s)
 
-    if awful.rules.match(c, { name = nocase_s })
-      or awful.rules.match(c, { class = nocase_s })
+    if awful.rules.match(c, { name = nc_s })
+      or awful.rules.match(c, { class = nc_s })
+
     then
       table.insert(cls, { c.name, function()
                             client.focus = c
@@ -46,40 +47,40 @@ function match_clients(s)
   return cls
 end
 
-function cmenureset()
-  if cmenu then cmenu:hide() end
+function client_menu_reset()
+  if client_menu then client_menu:hide() end
 
-  local clist = match_clients(matcher_str)
+  local client_list = match_clients(matcher_str)
 
-  if #clist == 0 then
+  if #client_list == 0 then
     if not options.hide_notification then
       naughty.notify({ text    = options.notification_text,
                        timeout = options.notification_timeout })
     end
 
     matcher_str = ""
-    clist = match_clients(matcher_str)
+    client_list = match_clients(matcher_str)
   end
 
-  cmenu = awful.menu(clist)
-  cmenu:item_enter(1)
-  cmenu:show(options)
+  client_menu = awful.menu(client_list)
+  client_menu:item_enter(1)
+  client_menu:show(options)
 
   awful.keygrabber.run(grabber)
 end
 
 function grabber(mod, key, event)
-  local sel = cmenu.sel or 0
+  local sel = client_menu.sel or 0
 
   if event == "release" then return end
 
   if key == 'Down' then
-    local sel_new = (sel + 1) > #cmenu.items and 1 or (sel + 1)
-    cmenu:item_enter(sel_new)
+    local sel_new = (sel + 1) > #client_menu.items and 1 or (sel + 1)
+    client_menu:item_enter(sel_new)
 
   elseif key == 'Up' then
-    local sel_new = (sel - 1) < 1 and #cmenu.items or (sel - 1)
-    cmenu:item_enter(sel_new)
+    local sel_new = (sel - 1) < 1 and #client_menu.items or (sel - 1)
+    client_menu:item_enter(sel_new)
 
   elseif key == '1' or
     key == '2' or
@@ -91,15 +92,15 @@ function grabber(mod, key, event)
     key == '8' or
     key == '9'
   then
-    cmenu:exec(key + 0, { exec = true })
+    client_menu:exec(key + 0, { exec = true })
     awful.keygrabber.stop(grabber)
 
   elseif key == '0' then
-    cmenu:exec(10, { exec = true })
+    client_menu:exec(10, { exec = true })
     awful.keygrabber.stop(grabber)
 
   elseif sel > 0 and key == 'Return' then
-    cmenu:exec(sel, { exec = true })
+    client_menu:exec(sel, { exec = true })
     awful.keygrabber.stop(grabber)
 
   elseif key == 'ISO_Level3_Shift'
@@ -113,15 +114,15 @@ function grabber(mod, key, event)
 
   elseif key == 'Escape' then
     awful.keygrabber.stop(grabber)
-    cmenu:hide()
+    client_menu:hide()
 
   elseif key == "BackSpace" then
     matcher_str = ""
-    cmenureset()
+    client_menu_reset()
 
   else
     matcher_str = matcher_str .. key
-    cmenureset()
+    client_menu_reset()
   end
 end
 
@@ -132,6 +133,6 @@ function switcher()
 
   awful.keygrabber.stop(grabber)
   matcher_str = ""
-  cmenureset()
+  client_menu_reset()
   awful.keygrabber.run(grabber)
 end
