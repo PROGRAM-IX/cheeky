@@ -134,7 +134,7 @@ function close()
   matcher_str = ""
 end
 
-function switcher()
+function switcher(opts)
   if opts then
     for k,v in pairs(opts) do options[k] = v end
   end
