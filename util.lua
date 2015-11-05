@@ -9,7 +9,7 @@ local table  = table
 
 module("cheeky.util")
 
-local matcher_str = nil
+local matcher_str = ""
 local client_menu = nil
 
 local options = {
@@ -19,38 +19,44 @@ local options = {
   notification_timeout  = 1
 }
 
-local function no_case(s)
-  s = string.gsub(s, "%a", function (c)
-                    return string.format("[%s%s]",
-                                         string.lower(c),
-                                         string.upper(c)) end)
-  return s
+function no_case(str)
+  return string.gsub(str,
+                     "%a",
+                     function(s)
+                       return string.format("[%s%s]",
+                                            string.lower(s),
+                                            string.upper(s)) end)
 end
 
-function match_clients(s)
-  local cls = {}
-
-  for i, c in pairs(client.get()) do
-    local nc_s = no_case(s)
-
-    if awful.rules.match(c, { name = nc_s })
-      or awful.rules.match(c, { class = nc_s })
-
-    then
-      table.insert(cls, { c.name, function()
-                            client.focus = c
-                            c:raise()
-                            awful.client.jumpto(c) end,
-                          c.icon }) end
-  end
-
-  return cls
-end
-
-function client_menu_reset()
+function draw_menu(list)
   if client_menu then client_menu:hide() end
 
-  local client_list = match_clients(matcher_str)
+  client_menu = awful.menu(list)
+  client_menu:item_enter(1)
+  client_menu:show(options)
+end
+
+function match_clients(str)
+  local low_str = no_case(str)
+  local clients = {}
+
+  for i, c in pairs(client.get()) do
+    if awful.rules.match(c, { name = low_str })
+      or awful.rules.match(c, { class = low_str })
+
+    then
+      table.insert(clients, { c.name, function()
+                                client.focus = c
+                                c:raise()
+                                awful.client.jumpto(c) end,
+                              c.icon }) end
+  end
+
+  return clients
+end
+
+function rerun(str)
+  local client_list = match_clients(str)
 
   if #client_list == 0 then
     if not options.hide_notification then
@@ -58,15 +64,21 @@ function client_menu_reset()
                        timeout = options.notification_timeout })
     end
 
-    matcher_str = ""
-    client_list = match_clients(matcher_str)
+    close()
+
+    rerun("")
+
+  else
+    draw_menu(match_clients(str))
+    awful.keygrabber.run(grabber)
+
   end
+end
 
-  client_menu = awful.menu(client_list)
-  client_menu:item_enter(1)
-  client_menu:show(options)
+function append_rerun(key)
+  matcher_str = matcher_str .. key
 
-  awful.keygrabber.run(grabber)
+  rerun(matcher_str)
 end
 
 function grabber(mod, key, event)
@@ -84,15 +96,15 @@ function grabber(mod, key, event)
 
   elseif string.match(key, "[1-9]") then
     client_menu:exec(key + 0, { exec = true })
-    awful.keygrabber.stop(grabber)
+    close()
 
   elseif key == '0' then
     client_menu:exec(10, { exec = true })
-    awful.keygrabber.stop(grabber)
+    close()
 
   elseif sel > 0 and key == 'Return' then
     client_menu:exec(sel, { exec = true })
-    awful.keygrabber.stop(grabber)
+    close()
 
   elseif key == 'ISO_Level3_Shift'
     or key == 'Shift_L'
@@ -104,17 +116,22 @@ function grabber(mod, key, event)
     or key == 'Super_R' then return
 
   elseif key == 'Escape' then
-    awful.keygrabber.stop(grabber)
-    client_menu:hide()
+    close()
 
   elseif key == "BackSpace" then
-    matcher_str = ""
-    client_menu_reset()
+    rerun("")
 
   else
-    matcher_str = matcher_str .. key
-    client_menu_reset()
+    append_rerun(key)
+
   end
+end
+
+function close()
+  awful.keygrabber.stop(grabber)
+  client_menu:hide()
+
+  matcher_str = ""
 end
 
 function switcher()
@@ -123,7 +140,8 @@ function switcher()
   end
 
   awful.keygrabber.stop(grabber)
-  matcher_str = ""
-  client_menu_reset()
+
+  draw_menu(match_clients(""))
+
   awful.keygrabber.run(grabber)
 end
