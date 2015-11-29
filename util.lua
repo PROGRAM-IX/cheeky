@@ -135,6 +135,12 @@ function close()
 end
 
 function switcher(opts)
+  if client.instances() < 1 then
+    naughty.notify({ text    = "No clients. Exiting.",
+                     timeout = options.notification_timeout })
+    return false
+  end
+
   if opts then
     for k,v in pairs(opts) do options[k] = v end
   end
