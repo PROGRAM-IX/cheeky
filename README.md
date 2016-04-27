@@ -63,14 +63,48 @@ The full table you can pass to the `switcher` function (some are pretty useless 
 
 ```lua
   {
-    coords = { x = 0, y = 0 },   -- default: the mouse's coordinates
-    hide_notification = false,   -- default: true
-    notification_text = "NOPE",  -- default: "No matches. Resetting"
-    notification_timeout = 5     -- default: 1
+    coords = { x = 0, y = 0 },   -- position of TL corner of menu (default: the mouse's coordinates)
+    hide_notification = false,   -- show the cheeky notification if nothing matches (default: true)
+    notification_text = "NOPE",  -- contents of cheeky notification (default: "No matches. Resetting")
+    notification_timeout = 5     -- time for notifications to remain onscreen (default: 1)
+    menu_theme = {height = 20, width = 400}, -- theme options for menu (default: {height = 15, width = 400})
+    show_tag = true,             -- display tag at left side of menu (default: true)
+    show_screen = true,          -- display screen index at left side of menu (default: false)
+    quit_key = '\',              -- close menu if this key is entered (default: '')
   }
 ```
 
 Type away!
+
+## Further customisations in rc.lua:
+
+```lua
+    awful.key({ modkey,           }, "Tab", function () 
+                                              mouse.screen = client.focus.screen
+                                              -- place the switcher in the centre of the screen with focus
+                                              local x_pos = screen[mouse.screen].geometry.width/2-200+screen[mouse.screen].geometry.x
+                                              local y_pos = screen[mouse.screen].geometry.height/2-200+screen[mouse.screen].geometry.y
+                                              -- move the mouse there as well
+                                              mouse.coords({
+                                                x = x_pos,
+                                                y = y_pos
+                                              })
+                                              cheeky.util.switcher({
+                                                coords = {
+                                                  x = x_pos,
+                                                  y = y_pos
+                                                },
+                                                menu_theme = {
+                                                  height = 15,
+                                                  width = 400
+                                                },
+                                                show_tag = false,
+                                                show_screen = true,
+                                                -- space is literal here for some reason
+                                                -- but it is easier to hit than Escape
+                                                quit_key = ' ', 
+                                              }) end),
+```
 
 ## TODO
 

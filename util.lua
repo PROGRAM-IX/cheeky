@@ -14,9 +14,13 @@ local client_menu = nil
 
 local options = {
   -- coords are handled by Awesome --
-  hide_notification     = false,
+  hide_notification     = true,
   notification_text     = "No matches. Resetting.",
-  notification_timeout  = 1
+  notification_timeout  = 1,
+  menu_theme            = {height = 25, width = 400},
+  show_tag              = true, -- display tag at left side of menu
+  show_screen           = true, -- display screen index at left side of menu
+  quit_key              = '',   -- close menu if this key is entered
 }
 
 function no_case(str)
@@ -31,7 +35,9 @@ end
 function draw_menu(list)
   if client_menu then client_menu:hide() end
 
-  client_menu = awful.menu(list)
+  client_menu = awful.menu.new({items = list, 
+                            theme = options.menu_theme
+                           })
   client_menu:item_enter(1)
   client_menu:show(options)
 end
@@ -47,7 +53,18 @@ function match_clients(str)
     then
       local tag = c.tags(c)[1]
       local screen = c.screen
-      table.insert(clients, { tag.name .. "(" .. screen .. "): " .. c.name, function()
+      local menu_entry = ""
+
+      if options.show_tag then
+        menu_entry = menu_entry .. "[" .. tag.name .. "] "
+      end
+
+      if options.show_screen then
+        menu_entry = menu_entry .. "<" .. screen .. "> "
+      end
+
+      menu_entry = menu_entry .. c.name
+      table.insert(clients, { menu_entry, function()
                                 client.focus = c
                                 c:raise()
                                 awful.client.jumpto(c) end,
@@ -84,11 +101,12 @@ function append_rerun(key)
 end
 
 function grabber(mod, key, event)
+  --naughty.notify({text = key})
   local sel = client_menu.sel or 0
 
   if event == "release" then return end
 
-  if key == 'Down' then
+  if key == 'Down' or key == 'Tab' then
     local sel_new = (sel + 1) > #client_menu.items and 1 or (sel + 1)
     client_menu:item_enter(sel_new)
 
@@ -117,7 +135,7 @@ function grabber(mod, key, event)
     or key == 'Super_L'
     or key == 'Super_R' then return
 
-  elseif key == 'Escape' then
+  elseif key == 'Escape' or key == options.quit_key then
     close()
 
   elseif key == "BackSpace" then
