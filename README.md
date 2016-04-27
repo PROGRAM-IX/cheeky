@@ -74,12 +74,12 @@ The full table you can pass to the `switcher` function:
   }
 ```
 
-Note: for menu_theme, the options you can change are:
-- height -- of each item
-- width  -- of entire menu
-- [fg_bg]_[normal|focus] -- control colour of focused/other items, bg = background, fg = text
-- border_[color|width] -- control border around whole menu
-- submenu_icon -- path to image file
+Note: for `menu_theme`, the options you can change are:
+- `height` -- of each item
+- `width`  -- of entire menu
+- `[fg_bg]_[normal|focus]` -- control colour of focused/other items, bg = background, fg = text
+- `border_[color|width]` -- control border around whole menu
+- `submenu_icon` -- path to image file
 For any colours, like in awesome itself, the value is a hex string like '#ff00ff' or '00ff00'
 If left alone these will be set matching your theme.
 
