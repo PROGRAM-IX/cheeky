@@ -45,7 +45,9 @@ function match_clients(str)
       or awful.rules.match(c, { class = low_str })
 
     then
-      table.insert(clients, { c.name, function()
+      local tag = c.tags(c)[1]
+      local screen = c.screen
+      table.insert(clients, { tag.name .. "(" .. screen .. "): " .. c.name, function()
                                 client.focus = c
                                 c:raise()
                                 awful.client.jumpto(c) end,
