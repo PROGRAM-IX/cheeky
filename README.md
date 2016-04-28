@@ -89,8 +89,7 @@ Type away!
 
 ```lua
     awful.key({ modkey,           }, "Tab", function () 
-                                              mouse.screen = client.focus.screen
-                                              -- place the switcher in the centre of the screen with focus
+                                              -- place the switcher in the centre of the screen with mouse focus
                                               local x_pos = screen[mouse.screen].geometry.width/2-200+screen[mouse.screen].geometry.x
                                               local y_pos = screen[mouse.screen].geometry.height/2-200+screen[mouse.screen].geometry.y
                                               -- move the mouse there as well
