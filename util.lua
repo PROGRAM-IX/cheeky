@@ -17,7 +17,7 @@ local options = {
   hide_notification     = false,
   notification_text     = "No matches. Resetting.",
   notification_timeout  = 1,
-  menu_theme            = {},
+  menu_theme            = nil,
   show_tag              = false, -- display tag at left side of menu
   show_screen           = false, -- display screen index at left side of menu
 }
