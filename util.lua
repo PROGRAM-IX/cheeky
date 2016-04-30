@@ -16,7 +16,8 @@ local options = {
   -- coords are handled by Awesome --
   hide_notification     = false,
   notification_text     = "No matches. Resetting.",
-  notification_timeout  = 1
+  notification_timeout  = 1,
+  quit_key              = '',   -- close menu if this key is entered
 }
 
 function no_case(str)
@@ -115,7 +116,7 @@ function grabber(mod, key, event)
     or key == 'Super_L'
     or key == 'Super_R' then return
 
-  elseif key == 'Escape' then
+  elseif key == 'Escape' or key == options.quit_key then
     close()
 
   elseif key == "BackSpace" then
