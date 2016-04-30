@@ -20,6 +20,7 @@ local options = {
   menu_theme            = {},
   show_tag              = false, -- display tag at left side of menu
   show_screen           = false, -- display screen index at left side of menu
+  quit_key              = nil,   -- close menu if this key is entered
 }
 
 function no_case(str)
@@ -133,7 +134,7 @@ function grabber(mod, key, event)
     or key == 'Super_L'
     or key == 'Super_R' then return
 
-  elseif key == 'Escape' then
+  elseif key == 'Escape' or key == options.quit_key then
     close()
 
   elseif key == "BackSpace" then

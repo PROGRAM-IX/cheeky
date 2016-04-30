@@ -70,6 +70,7 @@ The full table you can pass to the `switcher` function:
     show_tag = true,             -- display tag at left side of menu (default: false)
     show_screen = true,          -- display screen index at left side of menu (default: false)
     menu_theme = {height = 20, width = 400}, -- theme options for menu (default: nil)
+    quit_key = '\',              -- close menu if this key is entered (default: nil)
   }
 ```
 
