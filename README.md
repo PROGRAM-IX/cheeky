@@ -66,7 +66,7 @@ The full table you can pass to the `switcher` function (some are pretty useless 
     coords = { x = 0, y = 0 },   -- default: the mouse's coordinates
     hide_notification = false,   -- default: true
     notification_text = "NOPE",  -- default: "No matches. Resetting"
-    notification_timeout = 5     -- default: 1
+    notification_timeout = 5,    -- default: 1
     menu_theme = {height = 20, width = 400}, -- theme options for menu (default: nil)
   }
 ```
