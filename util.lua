@@ -18,6 +18,8 @@ local options = {
   notification_text     = "No matches. Resetting.",
   notification_timeout  = 1,
   menu_theme            = {},
+  show_tag              = false, -- display tag at left side of menu
+  show_screen           = false, -- display screen index at left side of menu
 }
 
 function no_case(str)
@@ -48,7 +50,20 @@ function match_clients(str)
       or awful.rules.match(c, { class = low_str })
 
     then
-      table.insert(clients, { c.name, function()
+      local tag = c.tags(c)[1]
+      local screen = c.screen
+      local menu_entry = ""
+
+      if options.show_tag then
+        menu_entry = menu_entry .. "[" .. tag.name .. "] "
+      end
+
+      if options.show_screen then
+        menu_entry = menu_entry .. "(" .. screen .. ") "
+      end
+
+      menu_entry = menu_entry .. c.name
+      table.insert(clients, { menu_entry, function()
                                 client.focus = c
                                 c:raise()
                                 awful.client.jumpto(c) end,
