@@ -64,7 +64,7 @@ The full table you can pass to the `switcher` function:
 ```lua
   {
     coords = { x = 0, y = 0 },   -- position of TL corner of menu (default: the mouse's coordinates)
-    hide_notification = true,    -- show the cheeky notification if nothing matches (default: false)
+    hide_notification = true,    -- hide the cheeky notification if nothing matches (default: false)
     notification_text = "NOPE",  -- contents of cheeky notification (default: "No matches. Resetting")
     notification_timeout = 5,    -- time for notifications to remain onscreen (default: 1)
     show_tag = true,             -- display tag at left side of menu (default: true)
