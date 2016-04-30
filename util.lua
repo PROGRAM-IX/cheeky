@@ -17,7 +17,7 @@ local options = {
   hide_notification     = false,
   notification_text     = "No matches. Resetting.",
   notification_timeout  = 1,
-  quit_key              = '',   -- close menu if this key is entered
+  quit_key              = nil,   -- close menu if this key is entered
 }
 
 function no_case(str)
