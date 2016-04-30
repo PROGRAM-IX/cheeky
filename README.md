@@ -67,7 +67,7 @@ The full table you can pass to the `switcher` function:
     hide_notification = true,    -- hide the cheeky notification if nothing matches (default: false)
     notification_text = "NOPE",  -- contents of cheeky notification (default: "No matches. Resetting")
     notification_timeout = 5,    -- time for notifications to remain onscreen (default: 1)
-    show_tag = true,             -- display tag at left side of menu (default: true)
+    show_tag = true,             -- display tag at left side of menu (default: false)
     show_screen = true,          -- display screen index at left side of menu (default: false)
   }
 ```
