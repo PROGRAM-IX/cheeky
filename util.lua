@@ -105,11 +105,11 @@ function grabber(mod, key, event)
 
   if event == "release" then return end
 
-  if key == 'Down' then
+  if key == 'Down' or key == 'Tab' then
     local sel_new = (sel + 1) > #client_menu.items and 1 or (sel + 1)
     client_menu:item_enter(sel_new)
 
-  elseif key == 'Up' then
+  elseif key == 'Up' or key == 'ISO_Left_Tab' then
     local sel_new = (sel - 1) < 1 and #client_menu.items or (sel - 1)
     client_menu:item_enter(sel_new)
 
