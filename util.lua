@@ -16,7 +16,8 @@ local options = {
   -- coords are handled by Awesome --
   hide_notification     = false,
   notification_text     = "No matches. Resetting.",
-  notification_timeout  = 1
+  notification_timeout  = 1,
+  menu_theme            = {},
 }
 
 function no_case(str)
@@ -31,7 +32,9 @@ end
 function draw_menu(list)
   if client_menu then client_menu:hide() end
 
-  client_menu = awful.menu(list)
+  client_menu = awful.menu.new({items = list, 
+                            theme = options.menu_theme
+                           })
   client_menu:item_enter(1)
   client_menu:show(options)
 end
