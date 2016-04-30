@@ -69,8 +69,13 @@ The full table you can pass to the `switcher` function:
     notification_timeout = 5,    -- time for notifications to remain onscreen (default: 1)
     show_tag = true,             -- display tag at left side of menu (default: false)
     show_screen = true,          -- display screen index at left side of menu (default: false)
+    menu_theme = {height = 20, width = 400}, -- theme options for menu (default: nil)
   }
 ```
+
+Note: for `menu_theme`, the options you can change are listed in the awesomewm API for awful.menu.new:
+https://awesomewm.org/doc/api/modules/awful.menu.html
+The contents of the `menu_theme` table will only be applied to the cheeky switcher menu, not other menus in awesomewm. If left blank, the cheeky switcher menu will use theme settings defined by your theme.
 
 Type away!
 
