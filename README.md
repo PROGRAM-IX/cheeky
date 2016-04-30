@@ -4,7 +4,7 @@ A cheeky window switcher for Awesome WM
 
 ## Description
 
-It popus up a menu with all your clients. As you type,
+It pops up a menu with all your clients. As you type, it
 case-insensitively filters the clients that match with the
 name or class.
 
@@ -59,14 +59,16 @@ end),
 
 #### Other options
 
-The full table you can pass to the `switcher` function (some are pretty useless but... meh):
+The full table you can pass to the `switcher` function:
 
 ```lua
   {
-    coords = { x = 0, y = 0 },   -- default: the mouse's coordinates
-    hide_notification = false,   -- default: true
-    notification_text = "NOPE",  -- default: "No matches. Resetting"
-    notification_timeout = 5     -- default: 1
+    coords = { x = 0, y = 0 },   -- position of TL corner of menu (default: the mouse's coordinates)
+    hide_notification = true,    -- show the cheeky notification if nothing matches (default: false)
+    notification_text = "NOPE",  -- contents of cheeky notification (default: "No matches. Resetting")
+    notification_timeout = 5,    -- time for notifications to remain onscreen (default: 1)
+    show_tag = true,             -- display tag at left side of menu (default: true)
+    show_screen = true,          -- display screen index at left side of menu (default: false)
   }
 ```
 
