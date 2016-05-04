@@ -21,6 +21,7 @@ local options = {
   show_tag              = false, -- display tag at left side of menu
   show_screen           = false, -- display screen index at left side of menu
   quit_key              = nil,   -- close menu if this key is entered
+  select_key            = nil,   -- select an option if this key is entered
 }
 
 function no_case(str)
@@ -121,7 +122,7 @@ function grabber(mod, key, event)
     client_menu:exec(10, { exec = true })
     close()
 
-  elseif sel > 0 and key == 'Return' then
+  elseif sel > 0 and (key == 'Return' or key == options.select_key) then
     client_menu:exec(sel, { exec = true })
     close()
 
