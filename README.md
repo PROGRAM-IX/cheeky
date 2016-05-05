@@ -72,6 +72,10 @@ function launch_cheeky()
   cheeky.util.switcher({ coords = { x = offset.x + 200,
                                     y = offset.y + 200 } })
 end
+
+...
+
+awful.key({ modkey }, "/", launch_cheeky)
 ```
 
 #### Other options
@@ -85,7 +89,7 @@ The full table you can pass to the `switcher` function:
   notification_timeout = 5,    -- default: 1
   show_tag = true,             -- default: false
   show_screen = true,          -- default: false
-  quit_key = '\',              -- default: nil (and Escape)
+  quit_key = '\',             '-- default: nil (and Escape)
   select_key = '`',            -- default: nil (and Enter)
   coords = {
     x = 300,
