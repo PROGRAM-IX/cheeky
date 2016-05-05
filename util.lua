@@ -14,7 +14,7 @@ local client_menu = nil
 
 local options = {
   -- coords are handled by Awesome --
-  hide_notification     = false,
+  notification_hide     = false,
   notification_text     = "No matches. Resetting.",
   notification_timeout  = 1,
   menu_theme            = { },
@@ -78,7 +78,7 @@ function rerun(str)
   local client_list = match_clients(str)
 
   if #client_list == 0 then
-    if not options.hide_notification then
+    if not options.notification_hide then
       naughty.notify({ text    = options.notification_text,
                        timeout = options.notification_timeout })
     end
@@ -154,6 +154,11 @@ function close()
 end
 
 function switcher(opts)
+  if not (opts.hide_notification == nil) then
+    naughty.notify({ text    = "cheeky: 'hide_notification' is deprecated, use 'notification_hide'.",
+                     timeout = 5 })
+  end
+
   if client.instances() < 1 then
     naughty.notify({ text    = "No clients. Exiting.",
                      timeout = options.notification_timeout })
