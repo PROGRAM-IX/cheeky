@@ -6,7 +6,7 @@ A cheeky window switcher for Awesome WM
 
 It pops up a menu with all your clients. As you type, it
 case-insensitively filters the clients that match with the
-name or class. Scroll through the list of clients with Down/Up 
+name or class. Scroll through the list of clients with Down/Up
 or Tab/Shift-Tab. Press Enter to switch to the selected client.
 
 It's cheeky. If no clients match your filter, it resets to the complete list
