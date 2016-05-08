@@ -154,7 +154,7 @@ function close()
 end
 
 function switcher(opts)
-  if not (opts.hide_notification == nil) then
+  if opts and (not opts.hide_notification == nil) then
     naughty.notify({ text    = "cheeky: 'hide_notification' is deprecated, use 'notification_hide'.",
                      timeout = 5 })
   end
