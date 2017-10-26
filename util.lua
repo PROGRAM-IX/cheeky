@@ -7,8 +7,6 @@ local client = client
 local pairs  = pairs
 local table  = table
 
-module("cheeky.util")
-
 local matcher_str = ""
 local client_menu = nil
 
@@ -24,7 +22,7 @@ local options = {
   select_key            = nil
 }
 
-function no_case(str)
+local function no_case(str)
   return string.gsub(str,
                      "%a",
                      function(s)
@@ -33,7 +31,7 @@ function no_case(str)
                                             string.upper(s)) end)
 end
 
-function draw_menu(list)
+local function draw_menu(list)
   if client_menu then client_menu:hide() end
 
   client_menu = awful.menu.new({ items = list,
@@ -42,7 +40,7 @@ function draw_menu(list)
   client_menu:show(options)
 end
 
-function match_clients(str)
+local function match_clients(str)
   local low_str = no_case(str)
   local clients = {}
 
@@ -74,7 +72,7 @@ function match_clients(str)
   return clients
 end
 
-function rerun(str)
+local function rerun(str)
   local client_list = match_clients(str)
 
   if #client_list == 0 then
@@ -94,13 +92,13 @@ function rerun(str)
   end
 end
 
-function append_rerun(key)
+local function append_rerun(key)
   matcher_str = matcher_str .. key
 
   rerun(matcher_str)
 end
 
-function grabber(mod, key, event)
+grabber = function(mod, key, event)
   local sel = client_menu.sel or 0
 
   if event == "release" then return end
@@ -146,14 +144,14 @@ function grabber(mod, key, event)
   end
 end
 
-function close()
+close = function()
   awful.keygrabber.stop(grabber)
   client_menu:hide()
 
   matcher_str = ""
 end
 
-function switcher(opts)
+local function switcher(opts)
   if opts and (not opts.hide_notification == nil) then
     naughty.notify({ text    = "cheeky: 'hide_notification' is deprecated, use 'notification_hide'.",
                      timeout = 5 })
@@ -175,3 +173,7 @@ function switcher(opts)
 
   awful.keygrabber.run(grabber)
 end
+
+return {
+   switcher = switcher,
+}

@@ -1,2 +1,3 @@
-require("cheeky.util")
-module("cheeky")
+return {
+   util = require("cheeky.util"),
+}
