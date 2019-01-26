@@ -65,7 +65,7 @@ local function match_clients(str)
       table.insert(clients, { menu_entry, function()
                                 client.focus = c
                                 c:raise()
-                                awful.client.jumpto(c) end,
+                                c:jump_to() end,
                               c.icon }) end
   end
 
