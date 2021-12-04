@@ -6,7 +6,7 @@ A cheeky window switcher for Awesome WM
 
 It pops up a menu with all your clients. As you type, it
 case-insensitively filters the clients that match with the
-name or class. Scroll through the list of clients with Down/Up 
+name or class. Scroll through the list of clients with Down/Up
 or Tab/Shift-Tab. Press Enter to switch to the selected client.
 
 It's cheeky. If no clients match your filter, it resets to the complete list
@@ -58,26 +58,49 @@ awful.key({ modkey }, "/", function()
 end),
 ```
 
+**TIP:** If you'd like the menu to appear on the screen with the
+currently focused client:
+
+```lua
+function launch_cheeky()
+  local offset = { x = 0, y = 0 }
+
+  if client.focus then
+    offset = screen[client.focus.screen].workarea
+  end
+
+  cheeky.util.switcher({ coords = { x = offset.x + 200,
+                                    y = offset.y + 200 } })
+end
+
+...
+
+awful.key({ modkey }, "/", launch_cheeky)
+```
+
 #### Other options
 
 The full table you can pass to the `switcher` function:
 
 ```lua
-  {
-    coords = { x = 0, y = 0 },   -- position of TL corner of menu (default: the mouse's coordinates)
-    hide_notification = true,    -- hide the cheeky notification if nothing matches (default: false)
-    notification_text = "NOPE",  -- contents of cheeky notification (default: "No matches. Resetting")
-    notification_timeout = 5,    -- time for notifications to remain onscreen (default: 1)
-    show_tag = true,             -- display tag at left side of menu (default: false)
-    show_screen = true,          -- display screen index at left side of menu (default: false)
-    menu_theme = {height = 20, width = 400}, -- theme options for menu (default: nil)
-    quit_key = '\',              -- close menu if this key is entered (default: nil)
-  }
+{
+  notification_hide = true,    -- default: false
+  notification_text = "NOPE",  -- default: "No matches. Resetting"
+  notification_timeout = 5,    -- default: 1
+  show_tag = true,             -- default: false
+  show_screen = true,          -- default: false
+  quit_key = '\',           --'-- default: nil (and Escape)
+  select_key = '`',            -- default: nil (and Enter)
+  coords = {
+    x = 300,
+    y = 100
+  },                           -- default: the mouse's coordinates (see above example)
+  menu_theme = {
+    height = 20,
+    width = 400
+  },                           -- default: { }, see https://awesomewm.org/doc/api/modules/awful.menu.html#new
+}
 ```
-
-Note: for `menu_theme`, the options you can change are listed in the awesomewm API for awful.menu.new:
-https://awesomewm.org/doc/api/modules/awful.menu.html
-The contents of the `menu_theme` table will only be applied to the cheeky switcher menu, not other menus in awesomewm. If left blank, the cheeky switcher menu will use theme settings defined by your theme.
 
 Type away!
 
