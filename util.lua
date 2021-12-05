@@ -58,7 +58,7 @@ local function match_clients(str)
       end
 
       if options.show_screen then
-        menu_entry = menu_entry .. "(" .. string.match(screen, "%d") .. ") "
+        menu_entry = menu_entry .. "(" .. string.match(screen.index, "%d") .. ") "
       end
 
       menu_entry = menu_entry .. c.name
