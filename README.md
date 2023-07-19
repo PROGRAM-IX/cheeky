@@ -1,6 +1,6 @@
 # cheeky
 
-A cheeky window switcher for Awesome WM
+A cheeky window switcher for Awesome WM (original repo/work by svexican now gone)
 
 ## Description
 
