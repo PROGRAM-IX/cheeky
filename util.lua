@@ -61,7 +61,10 @@ local function match_clients(str)
         menu_entry = menu_entry .. "(" .. string.match(screen.index, "%d") .. ") "
       end
 
-      menu_entry = menu_entry .. c.name
+      if c.name then
+         menu_entry = menu_entry .. c.name
+      end
+
       table.insert(clients, { menu_entry, function()
                                 client.focus = c
                                 c:raise()
