@@ -23,7 +23,7 @@ It was inspired by the oh-so-great:
 Clone this repository into your Awesome configuration directory:
 
 ```
-  git clone https://github.com/svexican/cheeky ~/.config/awesome
+  git clone https://github.com/PROGRAM-IX/cheeky ~/.config/awesome
 ```
 
 ## Usage
